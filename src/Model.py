@@ -7,36 +7,32 @@ from flask_sqlalchemy import SQLAlchemy
 ma = Marshmallow()
 db = SQLAlchemy()
 
+# EXPLAIN
+# maybe move to endpoints user file
+class User(db.Model):
+    __tablename__ = 'users'
+    __tableArgs__ = tuple(db.UniqueConstraint('user_id', 'user_name'))
+    user_id = db.Column(db.String(), primary_key=True, unique=True)
+    api_key = db.Column(db.String(), primary_key=True, unique=True)
+    user_name = db.Column(db.String(), primary_key=True)
+    user_password = db.Column(db.String())
 
-class Comment(db.Model):
-    __tablename__ = 'comments'
-    id = db.Column(db.Integer, primary_key=True)
-    comment = db.Column(db.String(250), nullable=False)
-    creation_date = db.Column(db.TIMESTAMP, server_default=db.func.current_timestamp(), nullable=False)
-    category_id = db.Column(db.Integer, db.ForeignKey('categories.id', ondelete='CASCADE'), nullable=False)
-    category = db.relationship('Category', backref=db.backref('comments', lazy='dynamic' ))
+    # constructor of User
+    def __init__(self, user_id, api_key, user_name, user_password):
+        self.user_id = user_id
+        self.api_key = api_key
+        self.user_name = user_name
+        self.user_password = user_password
 
-    def __init__(self, comment, category_id):
-        self.comment = comment
-        self.category_id = category_id
+    # EXPLAIN
+    def __repr__(self):
+        return '<id {}>'.format(self.user_id)
 
-
-class Category(db.Model):
-    __tablename__ = 'categories'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(150), unique=True, nullable=False)
-
-    def __init__(self, name):
-        self.name = name
-
-
-class CategorySchema(ma.Schema):
-    id = fields.Integer()
-    name = fields.String(required=True)
-
-
-class CommentSchema(ma.Schema):
-    id = fields.Integer(dump_only=True)
-    category_id = fields.Integer(required=True)
-    comment = fields.String(required=True, validate=validate.Length(1))
-    creation_date = fields.DateTime()
+    # Returns a JSON of the data
+    def serialize(self):
+        return {
+            'user_id': self.user_id,
+            'api_key': self.api_key,
+            'user_name': self.user_name,
+            'user_password': self.user_password
+        }
