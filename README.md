@@ -26,6 +26,14 @@ python3 run.py
 
 
 
+## Server
+
+Allow connection from outside:
+
+https://blog.bigbinary.com/2016/01/23/configure-postgresql-to-allow-remote-connection.html
+
+
+
 ## Tables
 
 ### Users
