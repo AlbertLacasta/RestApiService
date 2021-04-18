@@ -1,6 +1,6 @@
 # Rest API service
 
-**REST** is acronym for REpresentational State Transfer. It is an architectural style, and an approach to communications that is often used in the development of Web services.
+**REST** is acronym for Representational State Transfer. It is an architectural style, and an approach to communications that is often used in the development of Web services.
 
 **REST** web services are a way of providing interoperability between computer systems on the Internet. REST-compliant Web services allow requesting systems to access and manipulate textual representations of Web resources using a uniform and predefined set of stateless operations.
 
